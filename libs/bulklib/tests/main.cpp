@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <mylib.hpp>
+#include <bulk.hpp>
 
-TEST(MylibTest, AnyTest)
+TEST(BulklibTest, AnyTest)
 {
     EXPECT_EQ(true, false)
 }

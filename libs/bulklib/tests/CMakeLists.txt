@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 
-project(mylib-test LANGUAGES CXX)
+project(bulklib-test LANGUAGES CXX)
 
 include(CTest)
 
