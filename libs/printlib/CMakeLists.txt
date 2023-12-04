@@ -5,7 +5,9 @@ project(printlib  LANGUAGES CXX)
 add_library(${PROJECT_NAME}
     include/iprinter.hpp
     include/consoleprinter.hpp
+    # include/fileprinter.hpp
     src/consoleprinter.cpp
+    # src/fileprinter.cpp
 )
 
 # if (${BUILD_TESTING})

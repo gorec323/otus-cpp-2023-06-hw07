@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
-#include <consoleprinter.hpp>
+#include <consolebulkprinter.hpp>
+#include "filebulkprinter.hpp"
 #include "commandscontroller.hpp"
 
 namespace bulk_defs {
@@ -14,7 +15,8 @@ namespace {
 CommandsController::CommandsController(std::size_t blockCommandsLimit):
     m_blockCommandsLimit {blockCommandsLimit}
 {
-    m_printers.push_back(std::make_unique<hw_io::ConsolePrinter>());
+    m_printers.push_back(std::make_unique<ConsoleBulkPrinter>());
+    m_printers.push_back(std::make_unique<FileBulkPrinter>());
 }
 
 void CommandsController::addCommand(std::string &&strCommand)
@@ -62,34 +64,14 @@ bool CommandsController::isFinished() const noexcept
     return m_finished;
 }
 
-namespace {
-    std::string bulkToString(std::unique_ptr<Bulk> bulk)
-    {
-        auto &&commands = bulk->commands();
-        if (commands.size() > 0) {
-            std::string res {"bulk: " + commands.front()};
-
-            if (commands.size() > 1) {
-                std::for_each(std::next(commands.cbegin()), commands.cend(),
-                [&res](const auto &str)
-                {
-                    res.append(", " + str);
-                });
-
-                return res;
-            }
-        }
-
-        return {};
-    }
-}
-
 void CommandsController::printBuket()
 {
     if (m_currentBulk) {
-        const std::string str {bulkToString(std::exchange(m_currentBulk, {}))};
+        // const std::string str {bulkToString(std::exchange(m_currentBulk, {}))};
         for (auto &&printer : m_printers)
-            printer->print(str);
+            printer->printBulk(m_currentBulk);
+    
+        m_currentBulk = {};
     }
 }
 

@@ -7,6 +7,10 @@ add_library(${PROJECT_NAME}
     src/bulk.cpp
     include/commandscontroller.hpp
     src/commandscontroller.cpp
+    include/bulkprinter.hpp
+    src/bulkprinter.cpp
+    include/consolebulkprinter.hpp
+    include/filebulkprinter.hpp
 )
 
 if (${BUILD_TESTING})

@@ -28,6 +28,8 @@ public:
     /// @brief Добавление новой команды в блок
     /// @param command Строковая команда
     void push(std::string &&command);
+
+    const std::chrono::time_point<std::chrono::system_clock> &startPoint() const;
     
 private:
     const std::chrono::time_point<std::chrono::system_clock> m_startPoint;
