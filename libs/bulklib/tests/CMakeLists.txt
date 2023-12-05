@@ -20,7 +20,8 @@ PRIVATE
 target_link_libraries(${PROJECT_NAME}
 PRIVATE
     ${GTEST_BOTH_LIBRARIES}
-    mylib
+    bulklib
+    helperslib
 )
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})

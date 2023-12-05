@@ -2,6 +2,7 @@
 #include <commandscontroller.hpp>
 #include <sstream>
 #include <thread>
+#include <streamredirect.hpp>
 #include "version.h"
 
 using namespace std;
@@ -38,26 +39,25 @@ int main(int argc, const char *argv[])
         }
     };
 
-    {   // examples
-        // возвращает оригинальный буфер в std::cin
-        auto orig = std::unique_ptr<std::streambuf, void(*)(std::streambuf*)>(std::cin.rdbuf(),
-        [](std::streambuf *sbp)
-        {
-            std::cin.rdbuf(sbp);
-        });
-    
-        std::istringstream input1("cmd1\ncmd2\ncmd3\ncmd4\ncmd5\nEOF");
-        std::cin.rdbuf(input1.rdbuf());
+    // examples
 
+    { // обработка первого примера блока команд
+        
         std::cout << std::endl << "example1: " << std::endl;
 
-        // обработка первого примера блока команд
-        cinCmdProcessing();
+        std::istringstream inputStream("cmd1\ncmd2\ncmd3\ncmd4\ncmd5\nEOF");
+        helpers::stream_redirect sr {std::cin, inputStream.rdbuf()};
 
+        cinCmdProcessing();
+    
+    }
+
+    { // обработка второго примера блока команд
+        
         std::cout << std::endl << "example2: " << std::endl;
 
-        std::stringstream input2; 
-        input2 << "cmd1" << std::endl
+        std::stringstream inputStream; 
+        inputStream << "cmd1" << std::endl
         << "cmd2" << std::endl
         << "{" << std::endl
         << "cmd3" << std::endl
@@ -77,9 +77,8 @@ int main(int argc, const char *argv[])
         << "cmd11" << std::endl
         << "EOF" << std::endl;
 
-        std::cin.rdbuf(input2.rdbuf());
+        helpers::stream_redirect sr {std::cin, inputStream.rdbuf()};
     
-        // обработка второго примера блока команд
         cinCmdProcessing();
 
     }
