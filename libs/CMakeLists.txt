@@ -1,3 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
 
-add_subdirectory(mylib)
+add_subdirectory(bulklib)
+add_subdirectory(printlib)
+add_subdirectory(helperslib)
