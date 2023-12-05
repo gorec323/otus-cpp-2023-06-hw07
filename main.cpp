@@ -1,17 +1,16 @@
 #include <iostream>
-#include <commandscontroller.hpp>
 #include <sstream>
 #include <thread>
+#include <utility>
+#include <commandscontroller.hpp>
 #include <streamredirect.hpp>
 #include "version.h"
 
-using namespace std;
+// using namespace std;
 
 int main(int argc, const char *argv[])
 {
-    using namespace std;
-
-    cout << "Bulk version: " << PROJECT_VERSION << endl;
+    std::cout << "Bulk version: " << PROJECT_VERSION << std::endl;
 
     const auto bulkSize = argc;
     if (bulkSize != 2) {
@@ -34,6 +33,7 @@ int main(int argc, const char *argv[])
         while (!cmdProc.isFinished() && std::cin >> strCommand) {
             // std::cout << strCommand << std::endl;
             cmdProc.addCommand(std::exchange(strCommand, ""));
+            using namespace std::chrono_literals;
             if (!cmdProc.isFinished())
                 std::this_thread::sleep_for(1s);
         }
